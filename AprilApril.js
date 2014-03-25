@@ -28,7 +28,7 @@ AprilApril.prototype.effectTypes = {
 
         var scrambler = function(){
             var randomParagraph = paragraphs[Math.round(Math.random() * (paragraphs.length - 1))],
-            randomParagraphWords = randomParagraph.textContent.split(/\s/);
+                randomParagraphWords = randomParagraph.textContent.split(/\s/);
 
             if(!isElementInViewport(randomParagraph)){
                 randomParagraph.textContent = switchRandomElements(randomParagraphWords).join(' ');
