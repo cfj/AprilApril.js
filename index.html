@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AprilApril.js - page effects for April Fools' Day</title>
+    <meta name="description" content="Major shenanigans on April Fools' Day!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+
+
+    <header>
+        <h1>AprilApril.js</h1>
+        <section class="tagline">Mess with your visitors on April Fools' Day. Check out the effects below.</section>
+        <div class="main-buttons">
+            <a href="http://blablabla.js" download="AprilApril.js"><span class="download">Download</span></a>
+            <a href="#"><span class="github">View on Github</span></a>
+        </div>
+        <div class="share-buttons">
+            <div class="twitter">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="cfjsvarden" data-lang="en">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
+            <div class="github-button">
+                
+
+
+                <table><tr><td><iframe src="http://ghbtns.com/github-btn.html?user=cfj&repo=AprilApril.js&type=watch&count=true" height="30" width="118" frameborder="0" scrolling="0" style="width:118px; height: 30px;" allowTransparency="true"></iframe></td></tr></table>
+
+
+
+            </div>
+        </div>
+    </header>
+    
+    <div class="content">
+        <article>
+            
+            <section>
+                <h3>Replace images</h3>
+                <p>Look at all these beautiful photos! Would be a shame if something were to happen to them. This effect replaces all images on the page with random ones of Nic Cage and kittens. Also Steven Segal. And maybe more.</p>
+                <div class="sample-images">
+                    <img src="images/sample1.jpg" alt="">
+                    <img src="images/sample2.jpg" alt="">
+                    <img src="images/sample3.jpg" alt="">
+                </div>
+                <a class="button" href="#" data-effect="replaceImages">Try it</a>
+            </section>
+            <section>
+                <h3>Play sound</h3>
+                <p>Emits an embarassing sound at what will hopefully be a very inopportune time. In short, makes fart noises at random intervals.</p>
+                <a class="button" href="#" data-effect="playSound">Try it</a>
+            </section>
+            <section>
+                <h3>Shrink</h3>
+                <p>If you're looking for something a little more subtle and sophisticated, look no further. This one makes the entire web page shrink to 70% of its original size over the course of an hour.</p>
+                <a class="button" href="#" data-effect="shrink">Try it</a>
+            </section>
+            <section>
+                <h3>Scramble links</h3>
+                <p>Swap around the hrefs of all links on the page. You won't know where you'll end up! How fun.</p>
+                <a class="button" href="#" data-effect="scrambleLinks">Try it</a>
+            </section>
+            <section>
+                <h3>Scramble text</h3>
+                <p>Scramble text when the user's not looking. Text contained in <code>&lt;p&gt;</code> tags will be subject to having two words swapped at random every second, while the element is outside of the viewport.</p>
+                <a class="button" href="#" data-effect="scrambleText">Try it</a>
+            </section>
+            <section>
+                <h3>Say please</h3>
+                <p>When you request a new page by clicking on a link you'll have to say please before your browser serves it to you.</p>
+                <a class="button" href="#" data-effect="sayPlease">Try it</a>
+            </section>
+        </article>
+        <article>     
+            <h2>How to use</h2>
+            <p>First of all you need to include the JavaScript file to you page, like so:</p>
+            <pre>&lt;script src="AprilApril.min.js"&gt;&lt;/script&gt;</pre>
+            <p>Then you create a new <code>AprilApril</code> object like this, passing in the name of the effect you want to use:</p>
+            <pre>var april = new AprilApril('replaceImages');</pre>
+            <p>For major shenanigans, you can even run multiple effects by passing an object:</p>
+            <pre>var april = new AprilApril({
+            scrambleText: true,
+            playSound: true,
+            sayPlease: true
+            });</pre>
+            <p>Finally, you call it thusly:</p>
+            <pre>april.fool();</pre>
+            <h3>Using the <code>playSound</code> effect</h3>
+            <p>Since you don't want to download the sounds if you're not going to use them, these are provided in a separate file. So if you want your page to pass wind, you'll need to include the file <a href="AprilAprilsound.js" download="AprilAprilsound.js">AprilAprilsound.js</a> in the same way as the main file.</p>
+        </article>
+
+        <footer>
+            <p>A weekend project by <a href="https://twitter.com/cfjsvarden">Jonathan Svärdén</a>.</p>
+            <div class="subfooter">Inspired by <a href="https://github.com/wesbos/aprilFools.css">aprilFools.css</a> by <a href="https://twitter.com/wesbos">@wesbos</a> and <a href="http://fooljs.com/">fool.js</a> by <a href="https://twitter.com/idiot">@idiot</a></div>
+        </footer>
+    </div>
+
+    <script src="js/AprilApril.js"></script>
+    <script src="js/AprilAprilsound.js"></script>
+
+    <script>
+        var april = new AprilApril({
+            scrambleText: false,
+            scrambleLinks: false,
+            shrink: false,
+            replaceImages: false,
+            playSound: false,
+            sayPlease: false
+        });
+
+        var buttons = [].slice.call(document.querySelectorAll('.button'));
+
+        for(var i = 0; i < buttons.length; i++){
+
+            var button = buttons[i];
+
+            button.addEventListener('click', function(e){
+                e.preventDefault();
+                var effect = this.getAttribute('data-effect');
+                april.effectTypes[effect].call();
+            }, false);
+
+        }
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-19574209-7', 'svarden.se');
+          ga('send', 'pageview');
+
+    </script>
+	
+</body>
+</html>
