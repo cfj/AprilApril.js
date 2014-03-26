@@ -37,8 +37,8 @@ AprilApril.prototype.effectTypes = {
 
         var switchRandomElements = function(array){
             var firstRandomIndex = Math.round(Math.random() * (array.length - 1)),
-            SecondRandomIndex = Math.round(Math.random() * (array.length - 1)),
-            temp = array[firstRandomIndex];
+                SecondRandomIndex = Math.round(Math.random() * (array.length - 1)),
+                temp = array[firstRandomIndex];
 
             array[firstRandomIndex] = array[SecondRandomIndex];
             array[SecondRandomIndex] = temp;
