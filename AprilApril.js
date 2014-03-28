@@ -17,6 +17,24 @@ var AprilApril = function(options){
 
 };
 
+var injectCSS = function(css, duration, keyframeName){
+    var body = document.body,
+        style = document.createElement('style'),
+        animPrefixes = ['webkitAnimation', 'MozAnimation', 'OAnimation', 'MSAnimation', 'animation'];
+
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode(css));
+    document.getElementsByTagName('head')[0].appendChild(style);
+
+    for(var i = 0; i < animPrefixes.length; i++){
+        if([animPrefixes[i] + 'Duration'] in body.style){
+            body.style[animPrefixes[i] + 'Duration'] = duration;
+            body.style[animPrefixes[i] + 'FillMode'] = 'forwards';
+            body.style[animPrefixes[i] + 'Name'] = keyframeName;
+        }
+    }
+};
+
 AprilApril.prototype.effectTypes = {
 
     /**
@@ -28,7 +46,7 @@ AprilApril.prototype.effectTypes = {
 
         var scrambler = function(){
             var randomParagraph = paragraphs[Math.round(Math.random() * (paragraphs.length - 1))],
-            randomParagraphWords = randomParagraph.textContent.split(/\s/);
+                randomParagraphWords = randomParagraph.textContent.split(/\s/);
 
             if(!isElementInViewport(randomParagraph)){
                 randomParagraph.textContent = switchRandomElements(randomParagraphWords).join(' ');
@@ -99,28 +117,17 @@ AprilApril.prototype.effectTypes = {
      *   Shrink the body element to 70% over the course of 30 minutes.
      */
     shrink: function(){
-        var body = document.body,
-            DURATION = '3600s',
-            animPrefixes = ['webkitAnimation', 'MozAnimation', 'OAnimation', 'MSAnimation', 'animation'],
+        var DURATION = '3600s',
             keyframeRule = '@-webkit-keyframes shrink {100%{-webkit-transform: scale(.7);}}@-moz-keyframes shrink {100%{-moz-transform: scale(.7);}}@-o-keyframes shrink {100%{-o-transform: scale(.7);}}@keyframes shrink {100%{transform: scale(.7);}}';
 
-        var injectCSS = function(css){
-                var style = document.createElement('style');
+        injectCSS(keyframeRule, DURATION, 'shrink');
+    },
 
-                style.type = 'text/css';
-                style.appendChild(document.createTextNode(css));
-                document.getElementsByTagName('head')[0].appendChild(style);
-        };
+    rotate: function(){
+        var DURATION = '3600s',
+            keyframeRule = '@-webkit-keyframes rotate {100%{-webkit-transform: rotateZ(90deg);}}@-moz-keyframes rotate {100%{-moz-transform: rotateZ(90deg);}}@-o-keyframes rotate {100%{-o-transform: rotateZ(90deg);}}@keyframes rotate {100%{transform: rotateZ(90deg);}}';
 
-        injectCSS(keyframeRule);
-
-        for(var i = 0; i < animPrefixes.length; i++){
-            if([animPrefixes[i] + 'Duration'] in body.style){
-                body.style[animPrefixes[i] + 'Duration'] = DURATION;
-                body.style[animPrefixes[i] + 'FillMode'] = 'forwards';
-                body.style[animPrefixes[i] + 'Name'] = 'shrink';
-            }
-        }
+        injectCSS(keyframeRule, DURATION, 'rotate');
     },
 
     /**
