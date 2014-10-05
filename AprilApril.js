@@ -1,23 +1,23 @@
-var AprilApril = function(options){
+var AprilApril = function(options) {
 
-    if(typeof options === 'object'){
+    if(typeof options === 'object') {
         this.effects = {};
-        for(var effect in options){
+        for(var effect in options) {
             if(options[effect] && this.effectTypes[effect]){
                 this.effects[effect] = options[effect];
             }
         }
-    }else{
-        if(options in this.effectTypes){
+    } else {
+        if(options in this.effectTypes) {
             this.effect = options;
-        }else{
+        } else {
             throw new Error('Effect name not recognized.');
         }
     }
 
 };
 
-var injectCSS = function(css, duration, keyframeName){
+var injectCSS = function(css, duration, keyframeName) {
     var body = document.body,
         style = document.createElement('style'),
         animPrefixes = ['webkitAnimation', 'MozAnimation', 'OAnimation', 'MSAnimation', 'animation'];
@@ -26,7 +26,7 @@ var injectCSS = function(css, duration, keyframeName){
     style.appendChild(document.createTextNode(css));
     document.getElementsByTagName('head')[0].appendChild(style);
 
-    for(var i = 0; i < animPrefixes.length; i++){
+    for(var i = 0; i < animPrefixes.length; i++) {
         if([animPrefixes[i] + 'Duration'] in body.style){
             body.style[animPrefixes[i] + 'Duration'] = duration;
             body.style[animPrefixes[i] + 'FillMode'] = 'forwards';
@@ -40,29 +40,9 @@ AprilApril.prototype.effectTypes = {
     /**
      *   When the user's not looking, swap words around.
      */
-    scrambleText: function(){
+    scrambleText: function() {
         var DELAY = 1000,
-            paragraphs = [].slice.call(document.querySelectorAll('p'));
-
-        var scrambler = function(){
-            var randomParagraph = paragraphs[Math.round(Math.random() * (paragraphs.length - 1))],
-                randomParagraphWords = randomParagraph.textContent.split(/\s/);
-
-            if(!isElementInViewport(randomParagraph)){
-                randomParagraph.textContent = switchRandomElements(randomParagraphWords).join(' ');
-            }
-        };
-
-        var switchRandomElements = function(array){
-            var firstRandomIndex = Math.round(Math.random() * (array.length - 1)),
-                SecondRandomIndex = Math.round(Math.random() * (array.length - 1)),
-                temp = array[firstRandomIndex];
-
-            array[firstRandomIndex] = array[SecondRandomIndex];
-            array[SecondRandomIndex] = temp;
-
-            return array;
-        };
+            paragraphs = Array.prototype.slice.call(document.querySelectorAll('p'));
 
         var isElementInViewport = function(el) {
             var rect = el.getBoundingClientRect();
@@ -75,17 +55,37 @@ AprilApril.prototype.effectTypes = {
                 );
         };
 
+        var scrambler = function() {
+            var randomParagraph = paragraphs[Math.round(Math.random() * (paragraphs.length - 1))],
+                randomParagraphWords = randomParagraph.textContent.split(/\s/);
+
+            if(!isElementInViewport(randomParagraph)) {
+                randomParagraph.textContent = switchRandomElements(randomParagraphWords).join(' ');
+            }
+        };
+
+        var switchRandomElements = function(array) {
+            var firstRandomIndex = Math.round(Math.random() * (array.length - 1)),
+                SecondRandomIndex = Math.round(Math.random() * (array.length - 1)),
+                temp = array[firstRandomIndex];
+
+            array[firstRandomIndex] = array[SecondRandomIndex];
+            array[SecondRandomIndex] = temp;
+
+            return array;
+        };
+
         setInterval(scrambler, DELAY);
     },
 
     /**
      *   Grab all links on a page (that actually go somewhere) and swap their hrefs around.
      */
-    scrambleLinks: function(){
-        var links = [].slice.call(document.links),
+    scrambleLinks: function() {
+        var links = Array.prototype.slice.call(document.links),
             hrefs = [];
 
-        var getRandomElement = function(array){
+        var getRandomElement = function(array) {
             var randomIndex = Math.round((Math.random() * (array.length - 1))),
             elementToReturn = array[randomIndex];
 
@@ -95,7 +95,7 @@ AprilApril.prototype.effectTypes = {
         };
 
         //Get all links from the page with an actual URL
-        for(var i = 0, max = links.length; i < max; i++){
+        for(var i = 0, max = links.length; i < max; i++) {
             var href = links[i].href;
 
             if(href !== window.location.href + '#' && href.match(/http/)){
@@ -104,26 +104,26 @@ AprilApril.prototype.effectTypes = {
         }
 
         //Set a new href for all links with an actual URL
-        for(var i = 0, max = links.length; i < max; i++){
+        for(var i = 0, max = links.length; i < max; i++) {
             var href = links[i].href;
 
-            if(href !== window.location.href + '#' && href.match(/http/)){
+            if(href !== window.location.href + '#' && href.match(/http/)) {
                 links[i].href = getRandomElement(hrefs);
             }
         }
     },
 
     /**
-     *   Shrink the body element to 70% over the course of 30 minutes.
+     *   Shrink/rotate the body element to 70% over the course of 60 minutes.
      */
-    shrink: function(){
+    shrink: function() {
         var DURATION = '3600s',
             keyframeRule = '@-webkit-keyframes shrink {100%{-webkit-transform: scale(.7);}}@-moz-keyframes shrink {100%{-moz-transform: scale(.7);}}@-o-keyframes shrink {100%{-o-transform: scale(.7);}}@keyframes shrink {100%{transform: scale(.7);}}';
 
         injectCSS(keyframeRule, DURATION, 'shrink');
     },
 
-    rotate: function(){
+    rotate: function() {
         var DURATION = '3600s',
             keyframeRule = '@-webkit-keyframes rotate {100%{-webkit-transform: rotateZ(90deg);}}@-moz-keyframes rotate {100%{-moz-transform: rotateZ(90deg);}}@-o-keyframes rotate {100%{-o-transform: rotateZ(90deg);}}@keyframes rotate {100%{transform: rotateZ(90deg);}}';
 
@@ -133,7 +133,7 @@ AprilApril.prototype.effectTypes = {
     /**
      *   Replace all images on the page with random ones featuring kittens and Bill Murray.
      */
-    replaceImages: function(){
+    replaceImages: function() {
         var images = document.querySelectorAll('img'),
             newImageBaseURLs = [
                 'http://placekitten.com/',
@@ -142,7 +142,7 @@ AprilApril.prototype.effectTypes = {
                 'http://www.placecage.com/',
                 'http://www.stevensegallery.com/'];
 
-        for(var i = 0, max = images.length; i < max; i++){
+        for(var i = 0, max = images.length; i < max; i++) {
             var image  = images[i],
                 width  = image.naturalWidth || image.clientWidth,
                 height = image.naturalHeight || image.clientHeight;
@@ -151,12 +151,12 @@ AprilApril.prototype.effectTypes = {
         }
     },
 
-    sayPlease: function(){
-        var links = [].slice.call(document.links),
+    sayPlease: function() {
+        var links = Array.prototype.slice.call(document.links),
             prompts = ['Say please.', 'My goodness, where are your manners? Say please.', 'Just say please. I can do this all day.', 'You\'re really not going to say it, are you?', 'OK, now you\'re just testing how many of these there are.', 'This is the last one. Say please.'],
             count = 0;
 
-        for(var i = 0, max = links.length; i < max; i++){
+        for(var i = 0, max = links.length; i < max; i++) {
             var link = links[i];
 
             link.addEventListener('click', function(e){
@@ -164,12 +164,12 @@ AprilApril.prototype.effectTypes = {
 
                 var response = window.prompt(prompts[count]);
 
-                if(response && response.toLowerCase() === 'please'){
+                if(response && response.toLowerCase() === 'please') {
                     window.location = this.href;
-                }else{
+                } else {
                     if(count < prompts.length - 1){
                         count++;
-                    }else{
+                    } else {
                         count = 0;
                     }
                 }
@@ -179,16 +179,16 @@ AprilApril.prototype.effectTypes = {
     }
 };
 
-AprilApril.prototype.applyEffect = function(effect){
+AprilApril.prototype.applyEffect = function(effect) {
     this.effectTypes[effect].call();
 };
 
-AprilApril.prototype.fool = function(){
-    if(this.effects){
-        for(var effect in this.effects){
+AprilApril.prototype.fool = function() {
+    if(this.effects) {
+        for(var effect in this.effects) {
             this.applyEffect(effect);
         }
-    }else{
+    } else {
         this.applyEffect(this.effect);
     }
 };

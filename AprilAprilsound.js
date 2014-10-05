@@ -3,11 +3,11 @@
  *   Base64 encoded sounds courtesy of The Onion.
  *   https://github.com/theonion/fartscroll.js
  */
- AprilApril.prototype.effectTypes.playSound = function(){
-    var getSupportedAudio = function(player){
-        if(player.canPlayType('audio/mp3')){
+ AprilApril.prototype.effectTypes.playSound = function() {
+    var getSupportedAudio = function(player) {
+        if(player.canPlayType('audio/mp3')) {
             return mp3Sounds;
-        }else if(player.canPlayType('audio/ogg')){
+        } else if(player.canPlayType('audio/ogg')) {
             return oggSounds;
         }
     };
@@ -47,11 +47,11 @@
     var player = new Audio(),
         audio = getSupportedAudio(player);
 
-    var getRandomSound = function(audio){
+    var getRandomSound = function(audio) {
         return audio.mimeType + audio.sounds[Math.round(Math.random() * (audio.sounds.length - 1))]
     };
 
-    var playRandom = function(){
+    var playRandom = function() {
         player.src = getRandomSound(audio);
         player.play();
         clearInterval(interval);
